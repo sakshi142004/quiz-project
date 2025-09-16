@@ -17,9 +17,9 @@ This project allows students to attempt multiple-choice questions with a **custo
   * Wrong Answer → **Penalty System**:
 
     * 1st wrong → `0 penalty`
-    * 2nd wrong → `-2.5`
-    * 3rd wrong → `-5`
-    * 4th wrong → `-7.5`
+    * 2nd wrong → `-2.5% of one question mark` (i.e., -0.25)
+    * 3rd wrong → `-5% of one question mark` (i.e., -0.5)
+    * 4th wrong → `-7.5% of one question mark` (i.e., -0.75)
     * (Penalty increases for consecutive wrongs)
     * If the next answer is correct → **penalty resets to 0**
 * ✅ Final Results Page:
@@ -38,8 +38,6 @@ This project allows students to attempt multiple-choice questions with a **custo
 quiz_project/
 │
 ├── app.py              # Main Flask app
-├── questions.py        # Question bank (all MCQs)
-├── secretkey.py        # Secret key generator (for sessions)
 │
 ├── templates/          # HTML templates
 │   ├── index.html      # Student info form
@@ -99,13 +97,13 @@ http://127.0.0.1:5000
 
 * Each correct → **+10 points**
 * Each skip → **-2 points**
-* Wrong answers have a **progressive penalty**:
+* Wrong answers have a **progressive penalty (percentage-based)**:
 
   ```
   1st wrong → 0 penalty
-  2nd wrong → -2.5
-  3rd wrong → -5
-  4th wrong → -7.5
+  2nd wrong → -2.5% of 10 = -0.25
+  3rd wrong → -5% of 10 = -0.5
+  4th wrong → -7.5% of 10 = -0.75
   ...
   ```
 * If a student gives a **correct answer**, penalty resets to 0 again.
@@ -125,7 +123,7 @@ This ensures students are rewarded for accuracy while careless guessing gets pun
 
 You can easily change:
 
-* **Number of questions** → edit in `questions.py`
+* **Number of questions** → edit `app.py`
 * **Penalty values** → adjust logic in `app.py`
 * **Pass criteria** → update minimum correct count in `app.py`
 * **Design/theme** → modify `static/style.css`
