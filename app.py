@@ -74,19 +74,23 @@ def quiz():
         if not user_answer:  # Skipped question
             session["score"] -= 2  # -2 for skipping
             session["wrong_count"] += 1
-            session["penalty"] += 2.5 if session["wrong_count"] > 1 else 0
+            session["penalty"] = ((session["wrong_count"] - 1) * 2.5 / 100) * 10 if session["wrong_count"] > 1 else 0
+            session["score"] -= session["penalty"]
             session["answers"].append("Skipped")
-        elif user_answer == correct_answer:
+
+        elif user_answer == correct_answer:  # Correct answer
             session["score"] += 10  # correct answer points
             session["wrong_count"] = 0  # reset wrong streak
             session["penalty"] = 0  # reset penalty
             session["answers"].append(user_answer)
-        else:  # wrong answer
+
+        else:  # Wrong answer
             session["wrong_count"] += 1
             if session["wrong_count"] > 1:
-                session["penalty"] += 2.5  # incremental penalty
+                # penalty = (wrong_streak - 1) * 2.5% of 10
+                session["penalty"] = ((session["wrong_count"] - 1) * 2.5 / 100) * 10
             else:
-                session["penalty"] = 0  # first wrong = 0
+                session["penalty"] = 0  # first wrong = no penalty
             session["score"] -= session["penalty"]
             session["answers"].append(user_answer)
 
@@ -96,12 +100,35 @@ def quiz():
             return redirect(url_for("result"))
 
     q_index = session["current_q"]
-    return render_template("quiz.html", q=questions[q_index], index=q_index+1, total=len(questions))
+    return render_template("quiz.html", q=questions[q_index], index=q_index + 1, total=len(questions))
 
 @app.route("/result")
 def result():
-    return render_template("result.html", name=session["name"], roll=session["roll"],
-                           questions=questions, answers=session["answers"], score=session["score"])
+    total_questions = len(questions)
+    max_score = total_questions * 10  # Each correct = 10 points
+
+    # Count correct answers
+    correct_count = 0
+    for i, q in enumerate(questions):
+        if session["answers"][i] == q["answer"]:
+            correct_count += 1
+
+    percentage = (correct_count / total_questions) * 100
+    result_status = "Pass" if correct_count >= 9 else "Fail"
+
+    return render_template(
+        "result.html",
+        name=session["name"],
+        roll=session["roll"],
+        questions=questions,
+        answers=session["answers"],
+        score=session["score"],
+        max_score=max_score,
+        correct_count=correct_count,
+        total_questions=total_questions,
+        percentage=percentage,
+        result_status=result_status
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

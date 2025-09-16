@@ -9,7 +9,16 @@
   <h1>Final Results</h1>
   <p><strong>Name:</strong> {{ name }}</p>
   <p><strong>Roll No:</strong> {{ roll }}</p>
-  <p><strong>Final Score:</strong> {{ score }}</p>
+  <p><strong>Final Score:</strong> {{ score }} out of {{ max_score }}</p>
+  <p><strong>Correct Answers:</strong> {{ correct_count }} / {{ total_questions }}</p>
+  <p><strong>Percentage:</strong> {{ "%.2f"|format(percentage) }}%</p>
+  <p><strong>Result:</strong> 
+     {% if result_status == "Pass" %}
+       <span style="color: green;">Pass </span>
+     {% else %}
+       <span style="color: red;">Fail </span>
+     {% endif %}
+  </p>
 
   <h2>Answer Review</h2>
   <ul>
