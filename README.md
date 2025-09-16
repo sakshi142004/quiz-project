@@ -59,7 +59,7 @@ quiz_project/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/your-username/quiz_project.git
+git clone https://github.com/sakshi142004/quiz_project.git
 cd quiz_project
 ```
 
