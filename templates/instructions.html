@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Instructions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Welcome, {{ name }}!</h1>
+    <h2>Instructions</h2>
+    <ul>
+        <li>There are 20 multiple-choice questions.</li>
+        <li>Each correct answer gives <strong>+10 points</strong>.</li>
+        <li>Penalty system for wrong answers:
+            <ul>
+                <li>1st wrong → <strong>0 penalty</strong></li>
+                <li>Next wrongs → <strong>-2.5, -5, -7.5, etc.</strong> (increases for consecutive wrong answers)</li>
+                <li>If the next answer is correct → penalty resets to <strong>0</strong></li>
+            </ul>
+        </li>
+        <li>If you skip a question → <strong>-2 points</strong></li>
+    </ul>
+    <form method="POST">
+        <button type="submit">Start Quiz</button>
+    </form>
+</div>
+</body>
+</html>

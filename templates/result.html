@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+  <h1>Final Results</h1>
+  <p><strong>Name:</strong> {{ name }}</p>
+  <p><strong>Roll No:</strong> {{ roll }}</p>
+  <p><strong>Final Score:</strong> {{ score }}</p>
+
+  <h2>Answer Review</h2>
+  <ul>
+    {% for i in range(questions|length) %}
+      <li>
+        <strong>{{ questions[i]["question"] }}</strong><br>
+        Correct Answer: 
+        {% for opt in questions[i]["options"] %}
+          {% if opt.startswith(questions[i]["answer"]) %}
+            {{ opt }}
+          {% endif %}
+        {% endfor %}
+        <br>
+        Your Answer: 
+        {% for opt in questions[i]["options"] %}
+          {% if opt.startswith(answers[i]) %}
+            {{ opt }}
+          {% endif %}
+        {% endfor %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+</body>
+</html>
